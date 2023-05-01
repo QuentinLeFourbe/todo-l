@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Task } from "../types/task";
 
 type TaskProps = {
@@ -9,6 +10,8 @@ type TaskProps = {
 
 function TaskItem(props: TaskProps) {
   const { task, onDeleteTask, onEditTask, onCompleteTask } = props;
+  const [isEditing, setIsEditing] = useState(false);
+  const [taskName, setTaskName] = useState(task.name);
   return (
     <div>
       <input
@@ -16,9 +19,29 @@ function TaskItem(props: TaskProps) {
         onChange={() => onCompleteTask(task)}
         checked={task.isCompleted}
       />
-      <span>{task.name}</span>
+      {isEditing ? (
+        <input
+          type="text"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+        />
+      ) : (
+        <span>{task.name}</span>
+      )}
+
       <button onClick={() => onDeleteTask(task)}>Delete</button>
-      <button>Edit</button>
+      {isEditing ? (
+        <button
+          onClick={() => {
+            onEditTask({ ...task, name: taskName });
+            setIsEditing(false);
+          }}
+        >
+          Save
+        </button>
+      ) : (
+        <button onClick={() => setIsEditing(true)}>Edit</button>
+      )}
     </div>
   );
 }
