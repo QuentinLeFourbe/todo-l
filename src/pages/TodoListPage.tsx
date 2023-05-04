@@ -5,6 +5,8 @@ import TaskList from "../components/TaskList";
 
 function TodoListPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const completedTasks = tasks.filter((task) => task.isCompleted);
+  const notCompletedTasks = tasks.filter((task) => !task.isCompleted);
 
   const createTask = (task: Task) => {
     setTasks([...tasks, task]);
@@ -29,12 +31,28 @@ function TodoListPage() {
   return (
     <div>
       <TaskCreator onCreateTask={createTask} />
-      <TaskList
-        tasks={tasks}
-        onDeleteTask={deleteTask}
-        onEditTask={editTask}
-        onCompleteTask={completeTask}
-      />
+      {notCompletedTasks.length > 0 && (
+        <>
+          <p>On going tasks</p>
+          <TaskList
+            tasks={notCompletedTasks}
+            onDeleteTask={deleteTask}
+            onEditTask={editTask}
+            onCompleteTask={completeTask}
+          />
+        </>
+      )}
+      {completedTasks.length > 0 && (
+        <>
+          <p>Completed task</p>
+          <TaskList
+            tasks={completedTasks}
+            onDeleteTask={deleteTask}
+            onEditTask={editTask}
+            onCompleteTask={completeTask}
+          />
+        </>
+      )}
     </div>
   );
 }
