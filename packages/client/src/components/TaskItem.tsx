@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Task } from "../types/task";
+import styled from "styled-components";
 
 type TaskProps = {
   task: Task;
@@ -13,7 +14,7 @@ function TaskItem(props: TaskProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [taskName, setTaskName] = useState(task.name);
   return (
-    <div>
+    <Container>
       <input
         type="checkbox"
         onChange={() => onCompleteTask(task)}
@@ -26,24 +27,45 @@ function TaskItem(props: TaskProps) {
           onChange={(e) => setTaskName(e.target.value)}
         />
       ) : (
-        <span>{task.name}</span>
+        <TaskName isCompleted={task.isCompleted} className="task-name">
+          {task.name}
+        </TaskName>
       )}
-
-      <button onClick={() => onDeleteTask(task)}>Delete</button>
-      {isEditing ? (
-        <button
-          onClick={() => {
-            onEditTask({ ...task, name: taskName });
-            setIsEditing(false);
-          }}
-        >
-          Save
-        </button>
-      ) : (
-        <button onClick={() => setIsEditing(true)}>Edit</button>
-      )}
-    </div>
+      <div className="button-group">
+        <button onClick={() => onDeleteTask(task)}>Delete</button>
+        {isEditing ? (
+          <button
+            onClick={() => {
+              onEditTask({ ...task, name: taskName });
+              setIsEditing(false);
+            }}
+          >
+            Save
+          </button>
+        ) : (
+          <button onClick={() => setIsEditing(true)}>Edit</button>
+        )}
+      </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  padding: 4px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 400px;
+
+  .button-group {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+`;
+
+const TaskName = styled.span<{ isCompleted: boolean }>`
+  text-decoration: ${(props) => (props.isCompleted ? "line-through" : "none")};
+`;
 
 export default TaskItem;
