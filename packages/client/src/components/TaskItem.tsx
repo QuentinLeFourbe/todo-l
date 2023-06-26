@@ -13,8 +13,10 @@ function TaskItem(props: TaskProps) {
   const { task, onDeleteTask, onEditTask, onCompleteTask } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [taskName, setTaskName] = useState(task.name);
+
   return (
     <Container>
+      <div>id: {task.id}</div>
       <input
         type="checkbox"
         onChange={() => onCompleteTask(task)}

@@ -8,16 +8,21 @@ function TodoListPage() {
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const notCompletedTasks = tasks.filter((task) => !task.isCompleted);
 
-  const createTask = (task: Task) => {
-    setTasks([...tasks, task]);
+  const createTask = (taskToCreate: Task) => {
+    setTasks([...tasks, taskToCreate]);
   };
 
-  const deleteTask = (task: Task) => {
-    setTasks(tasks.filter((t) => t.id !== task.id));
+  const deleteTask = (taskToDelete: Task) => {
+    setTasks(tasks.filter((taskInArray) => taskInArray.id !== taskToDelete.id));
   };
 
-  const editTask = (task: Task) => {
-    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
+  const editTask = (editedTask: Task) => {
+    // name: Burpees, id: 1
+    setTasks(
+      tasks.map((taskInArray) =>
+        taskInArray.id === editedTask.id ? editedTask : taskInArray
+      )
+    );
   };
 
   const completeTask = (task: Task) => {

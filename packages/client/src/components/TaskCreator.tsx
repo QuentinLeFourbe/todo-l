@@ -9,7 +9,11 @@ type TaskCreatorProps = {
 function TaskCreator(props: TaskCreatorProps) {
   const firstId = 0;
   const getNewId = useNewId(firstId);
-  const [task, setTask] = useState({ id: firstId, name: "" });
+  const [task, setTask] = useState({
+    id: firstId,
+    name: "",
+    isCompleted: false,
+  });
 
   const handleTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTask({ ...task, name: e.target.value });
